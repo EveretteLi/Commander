@@ -1,3 +1,8 @@
+from utils.constants import (
+    PROCESSING_QUERY_MESSAGE as PROCESS_MSG,
+    ERROR_SHELL_SCRIPT_MESSAGE as SHELL_ERROR_MSG
+)
+
 class AIService:
     def __init__(self, logger):
         """
@@ -23,7 +28,7 @@ class AIService:
         Raises:
             ValueError: If the response cannot be converted to a shell script when enforced.
         """
-        self.logger.log(f"Processing query: {query}")
+        self.logger.log(PROCESS_MSG.format(query))
         # Placeholder for actual API call to DeepSeek AI
         # In a real implementation, this would make an HTTP request to the AI API
         response = f"Response to: {query}"
@@ -31,8 +36,8 @@ class AIService:
         # If shell script enforcement is requested, check and format the response
         if enforce_shell:
             if not self.is_shell_script(response):
-                self.logger.log("Error: Cannot convert response to Shell script")
-                raise ValueError("Cannot convert response to Shell script")
+                self.logger.log(SHELL_ERROR_MSG)
+                raise ValueError(SHELL_ERROR_MSG)
             # Add shell script shebang for executable format
             response = f"#!/bin/bash\n{response}"
         return response
